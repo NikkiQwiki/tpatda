@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата через Т-банк</title>
-    <script>
-        // Ссылка для оплаты
-        var paymentUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/";
-
-        // Пытаемся открыть приложение через Universal Link
-        window.location.href = paymentUrl;
-    </script>
+    <title>Тест Deep Links</title>
 </head>
 <body>
-    <h1>Перенаправляем в Т-банк...</h1>
+    <h1>Тестирование Deep Links для Т-банка</h1>
+    <button onclick="window.location.href='tbank://pay'">tbank://pay</button>
+    <button onclick="window.location.href='tbank://payment'">tbank://payment</button>
+    <button onclick="window.location.href='tbank://open'">tbank://open</button>
+    <button onclick="window.location.href='tbank://transfer'">tbank://transfer</button>
 </body>
 </html>
