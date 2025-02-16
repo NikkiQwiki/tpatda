@@ -5,26 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оплата через Т-банк</title>
     <script>
-        function openApp() {
-            var paymentUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Ваша ссылка
-            var androidStoreUrl = "https://play.google.com/store/apps/details?id=com.tbank"; // Ссылка на Google Play
-            var iosStoreUrl = "https://apps.apple.com/app/id123456789"; // Ссылка на App Store
+        // Ссылка для оплаты
+        var paymentUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/";
 
-            // Пытаемся открыть приложение через Universal Link
-            window.location.href = paymentUrl;
-
-            // Если приложение не открылось, перенаправляем в магазин приложений
-            setTimeout(function() {
-                if (/android/i.test(navigator.userAgent)) {
-                    window.location.href = androidStoreUrl; // Google Play для Android
-                } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                    window.location.href = iosStoreUrl; // App Store для iOS
-                }
-            }, 1000); // Таймер на 1 секунду
-        }
-
-        // Открываем приложение сразу при загрузке страницы
-        window.onload = openApp;
+        // Пытаемся открыть приложение через Universal Link
+        window.location.href = paymentUrl;
     </script>
 </head>
 <body>
