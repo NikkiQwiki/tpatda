@@ -6,23 +6,26 @@
     <title>Открытие приложения</title>
     <script>
         function openApp() {
-            var appUrl = "payapp://openpayment";  // Схема URL для твоего приложения
+            var appUrl = "payapp://openpayment"; // Схема URL для приложения (например, для оплаты)
 
-            // Проверка устройства для определения нужной схемы
+            // Проверяем, какое устройство и открываем приложение
             if (/android/i.test(navigator.userAgent)) {
-                window.location.href = appUrl; // Попытка открыть приложение через схему
+                window.location.href = appUrl; // Попытка открыть приложение на Android
             } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                window.location.href = appUrl; // Попытка открыть приложение через схему
+                window.location.href = appUrl; // Попытка открыть приложение на iOS
                 setTimeout(function() {
-                    window.location.href = "https://appstore.com"; // Переход на App Store, если приложение не установлено
+                    window.location.href = "https://apps.apple.com"; // Переход в App Store, если приложение не установлено
                 }, 1000);
             } else {
                 window.location.href = "https://www.example.com"; // Альтернативный URL для других устройств
             }
         }
+
+        // Открываем приложение сразу при загрузке страницы
+        window.onload = openApp;
     </script>
 </head>
-<body onload="openApp()">
+<body>
     <h1>Перенаправляем...</h1>
 </body>
 </html>
