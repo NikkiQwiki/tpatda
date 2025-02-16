@@ -7,17 +7,23 @@
     <script>
         function openApp() {
             var appUrl = "payapp://openpayment"; // Схема URL для приложения (например, для оплаты)
+            var androidStoreUrl = "https://play.google.com/store/apps/details?id=com.tbank"; // Ссылка на приложение в Google Play
+            var iosStoreUrl = "https://apps.apple.com/app/id123456789"; // Ссылка на приложение в App Store
+            var fallbackUrl = "https://www.tbank.ru/pay"; // Альтернативная ссылка для браузера
 
             // Проверяем, какое устройство и открываем приложение
             if (/android/i.test(navigator.userAgent)) {
                 window.location.href = appUrl; // Попытка открыть приложение на Android
+                setTimeout(function() {
+                    window.location.href = androidStoreUrl; // Переход в Google Play, если приложение не установлено
+                }, 500); // Таймер на 500 мс
             } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
                 window.location.href = appUrl; // Попытка открыть приложение на iOS
                 setTimeout(function() {
-                    window.location.href = "https://apps.apple.com"; // Переход в App Store, если приложение не установлено
-                }, 1000);
+                    window.location.href = iosStoreUrl; // Переход в App Store, если приложение не установлено
+                }, 500); // Таймер на 500 мс
             } else {
-                window.location.href = "https://www.example.com"; // Альтернативный URL для других устройств
+                window.location.href = fallbackUrl; // Альтернативный URL для других устройств
             }
         }
 
