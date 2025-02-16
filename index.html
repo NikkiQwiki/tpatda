@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Открытие ссылки</title>
+    <script>
+        function openLink() {
+            var url = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273";
+
+            if (/android/i.test(navigator.userAgent)) {
+                window.location.href = "googlechrome://" + url.replace("https://", "").replace("http://", "");
+            } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+                window.location.href = "googlechrome://" + url.replace("https://", "").replace("http://", "");
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 1000);
+            } else {
+                window.location.href = url;
+            }
+        }
+    </script>
+</head>
+<body onload="openLink()">
+    <h1>Перенаправляем...</h1>
+</body>
+</html>
