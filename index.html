@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Открытие ссылки</title>
+    <title>Открытие приложения</title>
     <script>
-        function openLink() {
-            var url = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273";
+        function openApp() {
+            var appUrl = "payapp://openpayment";  // Схема URL для твоего приложения
 
+            // Проверка устройства для определения нужной схемы
             if (/android/i.test(navigator.userAgent)) {
-                window.location.href = "googlechrome://" + url.replace("https://", "").replace("http://", "");
+                window.location.href = appUrl; // Попытка открыть приложение через схему
             } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                window.location.href = "googlechrome://" + url.replace("https://", "").replace("http://", "");
+                window.location.href = appUrl; // Попытка открыть приложение через схему
                 setTimeout(function() {
-                    window.location.href = url;
+                    window.location.href = "https://appstore.com"; // Переход на App Store, если приложение не установлено
                 }, 1000);
             } else {
-                window.location.href = url;
+                window.location.href = "https://www.example.com"; // Альтернативный URL для других устройств
             }
         }
     </script>
 </head>
-<body onload="openLink()">
+<body onload="openApp()">
     <h1>Перенаправляем...</h1>
 </body>
 </html>
