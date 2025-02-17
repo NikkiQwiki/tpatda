@@ -8,13 +8,22 @@
         function openApp() {
             var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/"; // Сайт банка
             var deepLinkIOS = "tinkoffbank://pay/FRwAW31273"; // Deep Link для iOS
-            var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;"; // Deep Link для Android
+            var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;S.browser_fallback_url=" + encodeURIComponent(fallbackUrl) + ";end;"; // Для Android с fallback
 
             var userAgent = navigator.userAgent.toLowerCase();
             var isAndroid = userAgent.includes("android");
             var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
+            var isSamsungBrowser = userAgent.includes("samsung") || userAgent.includes("samsungbrowser");
+            var isTelegram = userAgent.includes("telegram");
 
-            if (isAndroid) {
+            if (isTelegram || isSamsungBrowser) {
+                // Принудительно открываем в Chrome
+                window.location.href = "googlechrome://navigate?url=" + encodeURIComponent(deepLinkAndroid);
+                setTimeout(function () {
+                    window.location.href = fallbackUrl;
+                }, 1000);
+            } 
+            else if (isAndroid) {
                 window.location.href = deepLinkAndroid;
                 setTimeout(function () {
                     window.location.href = fallbackUrl;
