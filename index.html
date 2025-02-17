@@ -6,17 +6,16 @@
     <title>Перенаправление...</title>
     <script>
         function openApp() {
-            var universalLink = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
-            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273";
+            var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/"; 
             var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;";
-            var fallbackUrl = universalLink;
+            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273";
 
             if (/android/i.test(navigator.userAgent)) {
                 window.location.href = deepLinkAndroid;
-                setTimeout(() => { window.location.href = fallbackUrl; }, 1500);
+                setTimeout(() => { window.location.href = fallbackUrl; }, 1000);
             } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
                 window.location.href = deepLinkIOS;
-                setTimeout(() => { window.location.href = fallbackUrl; }, 1500);
+                setTimeout(() => { window.location.href = fallbackUrl; }, 1000);
             } else {
                 window.location.href = fallbackUrl;
             }
