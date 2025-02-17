@@ -3,48 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Открытие Тинькофф</title>
+    <title>Перенаправление...</title>
     <script>
         function openApp() {
-            var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
-            var universalLink = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";  
-            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273"; 
+            var universalLink = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
+            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273";
             var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;";
-            
-            var userAgent = navigator.userAgent.toLowerCase();
-            var isAndroid = userAgent.includes("android");
-            var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
+            var fallbackUrl = universalLink;
 
-            if (isIOS) {
-                // Попытка открыть через Universal Link
-                window.location.href = universalLink;
-
-                setTimeout(function () {
-                    // Если не открылось приложение – пробуем Deep Link
-                    var iframe = document.createElement("iframe");
-                    iframe.style.display = "none";
-                    iframe.src = deepLinkIOS;
-                    document.body.appendChild(iframe);
-                }, 1000);
-            } else if (isAndroid) {
-                // Попытка открыть через Universal Link
-                window.location.href = universalLink;
-
-                setTimeout(function () {
-                    window.location.href = deepLinkAndroid;
-                }, 1000);
+            if (/android/i.test(navigator.userAgent)) {
+                window.location.href = deepLinkAndroid;
+                setTimeout(() => { window.location.href = fallbackUrl; }, 1500);
+            } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
+                window.location.href = deepLinkIOS;
+                setTimeout(() => { window.location.href = fallbackUrl; }, 1500);
             } else {
                 window.location.href = fallbackUrl;
             }
         }
 
-        window.onload = function () {
-            document.getElementById("openAppButton").click(); // Автоклик, чтобы обойти блокировки браузера
-        };
+        window.onload = openApp;
     </script>
 </head>
 <body>
     <h1>Перенаправляем в Тинькофф...</h1>
-    <button id="openAppButton" onclick="openApp()" style="display: none;">Открыть</button>
 </body>
 </html>
