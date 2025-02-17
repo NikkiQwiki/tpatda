@@ -6,43 +6,40 @@
     <title>Открытие Т-банка</title>
     <script>
         function openApp() {
-            var universalLink = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Web fallback
-            var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tbank;package=com.tbank;end;";
-            var deepLinkIOS = "tbank://pay/FRwAW31273"; // iOS deep link
+            var fallbackUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Fallback-ссылка
+            var deepLinkAndroid = "tbank://pay/FRwAW31273"; // Deep Link для Android
+            var deepLinkIOS = "tbank://pay/FRwAW31273"; // Deep Link для iOS
 
             var userAgent = navigator.userAgent.toLowerCase();
             var isAndroid = userAgent.includes("android");
             var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
 
             if (isAndroid) {
-                // Открываем приложение через intent (Chrome) + iframe для большей совместимости
+                // Попытка открыть приложение через window.open
                 window.location.href = deepLinkAndroid;
                 setTimeout(function () {
-                    window.location.href = universalLink;
-                }, 300); // Если приложение не установлено, через 300 мс откроется сайт
+                    window.location.href = fallbackUrl;
+                }, 500);
             } 
             else if (isIOS) {
-                // iOS: открываем приложение через кастомную схему
                 var iframe = document.createElement("iframe");
                 iframe.style.display = "none";
                 iframe.src = deepLinkIOS;
                 document.body.appendChild(iframe);
 
                 setTimeout(function () {
-                    window.location.href = universalLink;
-                }, 300); // Если приложение не установлено, через 300 мс откроется сайт
+                    window.location.href = fallbackUrl;
+                }, 500);
             } 
             else {
-                // Для ПК и других устройств — обычный сайт
-                window.location.href = universalLink;
+                window.location.href = fallbackUrl;
             }
         }
 
-        // Запускаем редирект сразу при загрузке страницы
         window.onload = openApp;
     </script>
 </head>
 <body>
     <h1>Перенаправляем в Т-банк...</h1>
 </body>
-</html
+</html>
