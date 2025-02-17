@@ -6,52 +6,42 @@
     <title>Открытие Тинькофф</title>
     <script>
         function openApp() {
-            var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/"; 
-            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273"; 
+            var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
+            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273";
             var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;";
+
             var userAgent = navigator.userAgent.toLowerCase();
             var isAndroid = userAgent.includes("android");
             var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
-            var isSamsungBrowser = userAgent.includes("samsung") || userAgent.includes("samsungbrowser");
-            var isTelegram = userAgent.includes("telegram");
-            
-            if (isIOS) {
-                var iframe = document.createElement("iframe");
-                iframe.style.display = "none";
-                iframe.src = deepLinkIOS;
-                document.body.appendChild(iframe);
 
+            if (isIOS) {
+                window.location.href = deepLinkIOS;
                 setTimeout(function () {
-                    window.location.href = fallbackUrl;
+                    document.getElementById("manualOpen").style.display = "block"; // Показываем кнопку
                 }, 1500);
-            } 
-            else if (isAndroid) {
-                if (isSamsungBrowser || isTelegram) {
-                    // Принудительно открываем через скрытый iframe
-                    var iframe = document.createElement("iframe");
-                    iframe.style.display = "none";
-                    iframe.src = deepLinkAndroid;
-                    document.body.appendChild(iframe);
-                    
-                    setTimeout(function () {
-                        window.location.href = fallbackUrl;
-                    }, 1500);
-                } else {
-                    window.location.href = deepLinkAndroid;
-                    setTimeout(function () {
-                        window.location.href = fallbackUrl;
-                    }, 1500);
-                }
-            } 
-            else {
+            } else if (isAndroid) {
+                window.location.href = deepLinkAndroid;
+                setTimeout(function () {
+                    document.getElementById("manualOpen").style.display = "block"; // Показываем кнопку
+                }, 1500);
+            } else {
                 window.location.href = fallbackUrl;
             }
         }
 
-        window.onload = openApp;
+        function openManually() {
+            window.location.href = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
+        }
+
+        window.onload = function () {
+            setTimeout(openApp, 500);
+        };
     </script>
 </head>
 <body>
     <h1>Перенаправляем в Тинькофф...</h1>
+    <button id="manualOpen" onclick="openManually()" style="display:none; padding: 10px 20px; font-size: 16px;">
+        Открыть вручную
+    </button>
 </body>
 </html>
