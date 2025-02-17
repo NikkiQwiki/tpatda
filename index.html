@@ -6,37 +6,43 @@
     <title>Открытие Т-банка</title>
     <script>
         function openApp() {
-            var universalLink = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Universal Link
-            var deepLinkAndroid = "intent://pay/#Intent;scheme=tbank;package=com.tbank;S.payload=FRwAW31273;end;"; // Deep Link для Android
-            var deepLinkIOS = "tbank://pay/FRwAW31273"; // Deep Link для iOS
-            var fallbackUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Fallback-ссылка
+            var universalLink = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Web fallback
+            var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tbank;package=com.tbank;end;";
+            var deepLinkIOS = "tbank://pay/FRwAW31273"; // iOS deep link
 
-            // Проверяем устройство
-            if (/android/i.test(navigator.userAgent)) {
-                // Пытаемся открыть Deep Link для Android
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isAndroid = userAgent.includes("android");
+            var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
+
+            if (isAndroid) {
+                // Открываем приложение через intent (Chrome) + iframe для большей совместимости
                 window.location.href = deepLinkAndroid;
-                setTimeout(function() {
-                    window.location.href = fallbackUrl; // Если не открылось, переходим на fallback
-                }, 500); // Таймер на 500 мс
-            } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                // Пытаемся открыть Deep Link для iOS
-                window.location.href = deepLinkIOS;
-                setTimeout(function() {
-                    // Если не открылось, показываем сообщение
-                    alert("Приложение Т-банк не установлено. Откройте приложение вручную.");
-                    window.location.href = fallbackUrl; // Переходим на fallback
-                }, 500); // Таймер на 500 мс
-            } else {
-                // Для других устройств используем Universal Link
+                setTimeout(function () {
+                    window.location.href = universalLink;
+                }, 300); // Если приложение не установлено, через 300 мс откроется сайт
+            } 
+            else if (isIOS) {
+                // iOS: открываем приложение через кастомную схему
+                var iframe = document.createElement("iframe");
+                iframe.style.display = "none";
+                iframe.src = deepLinkIOS;
+                document.body.appendChild(iframe);
+
+                setTimeout(function () {
+                    window.location.href = universalLink;
+                }, 300); // Если приложение не установлено, через 300 мс откроется сайт
+            } 
+            else {
+                // Для ПК и других устройств — обычный сайт
                 window.location.href = universalLink;
             }
         }
 
-        // Открываем приложение сразу при загрузке страницы
+        // Запускаем редирект сразу при загрузке страницы
         window.onload = openApp;
     </script>
 </head>
 <body>
     <h1>Перенаправляем в Т-банк...</h1>
 </body>
-</html>
+</html
