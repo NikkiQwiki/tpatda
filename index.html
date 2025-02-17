@@ -7,8 +7,8 @@
     <script>
         function openApp() {
             var universalLink = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Universal Link
-            var deepLinkAndroid = "intent://pay/#Intent;scheme=tbank;package=com.tbank;end;"; // Deep Link для Android
-            var deepLinkIOS = "tbank://pay"; // Deep Link для iOS
+            var deepLinkAndroid = "intent://pay/#Intent;scheme=tbank;package=com.tbank;S.payload=FRwAW31273;end;"; // Deep Link для Android
+            var deepLinkIOS = "tbank://pay/FRwAW31273"; // Deep Link для iOS
             var fallbackUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Fallback-ссылка
 
             // Проверяем устройство
@@ -22,7 +22,9 @@
                 // Пытаемся открыть Deep Link для iOS
                 window.location.href = deepLinkIOS;
                 setTimeout(function() {
-                    window.location.href = fallbackUrl; // Если не открылось, переходим на fallback
+                    // Если не открылось, показываем сообщение
+                    alert("Приложение Т-банк не установлено. Откройте приложение вручную.");
+                    window.location.href = fallbackUrl; // Переходим на fallback
                 }, 500); // Таймер на 500 мс
             } else {
                 // Для других устройств используем Universal Link
