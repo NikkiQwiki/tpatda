@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Открытие Т-банка</title>
+    <title>Открытие Тинькофф</title>
     <script>
         function openApp() {
-            var universalLink = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Universal Link
-            var deepLinkAndroid = "intent://pay/#Intent;scheme=tbank;package=com.tbank;end;"; // Deep Link для Android
-            var deepLinkIOS = "tbank://pay"; // Deep Link для iOS
-            var fallbackUrl = "https://www.tbank.ru/rm/miansaryan.levon1/FRwAW31273/"; // Fallback-ссылка
+            var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/"; // Сайт банка
+            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273"; // Deep Link для iOS
+            var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;"; // Deep Link для Android
 
-            // Проверяем устройство
-            if (/android/i.test(navigator.userAgent)) {
-                // Пытаемся открыть Deep Link для Android
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isAndroid = userAgent.includes("android");
+            var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
+
+            if (isAndroid) {
                 window.location.href = deepLinkAndroid;
-                setTimeout(function() {
-                    window.location.href = fallbackUrl; // Если не открылось, переходим на fallback
-                }, 500); // Таймер на 500 мс
-            } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
-                // Пытаемся открыть Deep Link для iOS
-                window.location.href = deepLinkIOS;
-                setTimeout(function() {
-                    window.location.href = fallbackUrl; // Если не открылось, переходим на fallback
-                }, 500); // Таймер на 500 мс
-            } else {
-                // Для других устройств используем Universal Link
-                window.location.href = universalLink;
+                setTimeout(function () {
+                    window.location.href = fallbackUrl;
+                }, 1000);
+            } 
+            else if (isIOS) {
+                var iframe = document.createElement("iframe");
+                iframe.style.display = "none";
+                iframe.src = deepLinkIOS;
+                document.body.appendChild(iframe);
+
+                setTimeout(function () {
+                    window.location.href = fallbackUrl;
+                }, 1000);
+            } 
+            else {
+                window.location.href = fallbackUrl;
             }
         }
 
-        // Открываем приложение сразу при загрузке страницы
         window.onload = openApp;
     </script>
 </head>
 <body>
-    <h1>Перенаправляем в Т-банк...</h1>
+    <h1>Перенаправляем в Тинькофф...</h1>
 </body>
 </html>
