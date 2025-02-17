@@ -7,41 +7,44 @@
     <script>
         function openApp() {
             var fallbackUrl = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
-            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273";
+            var universalLink = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";  
+            var deepLinkIOS = "tinkoffbank://pay/FRwAW31273"; 
             var deepLinkAndroid = "intent://pay/FRwAW31273#Intent;scheme=tinkoffbank;package=com.idamob.tinkoff.android;end;";
-
+            
             var userAgent = navigator.userAgent.toLowerCase();
             var isAndroid = userAgent.includes("android");
             var isIOS = userAgent.includes("iphone") || userAgent.includes("ipad");
 
             if (isIOS) {
-                window.location.href = deepLinkIOS;
+                // Попытка открыть через Universal Link
+                window.location.href = universalLink;
+
                 setTimeout(function () {
-                    document.getElementById("manualOpen").style.display = "block"; // Показываем кнопку
-                }, 1500);
+                    // Если не открылось приложение – пробуем Deep Link
+                    var iframe = document.createElement("iframe");
+                    iframe.style.display = "none";
+                    iframe.src = deepLinkIOS;
+                    document.body.appendChild(iframe);
+                }, 1000);
             } else if (isAndroid) {
-                window.location.href = deepLinkAndroid;
+                // Попытка открыть через Universal Link
+                window.location.href = universalLink;
+
                 setTimeout(function () {
-                    document.getElementById("manualOpen").style.display = "block"; // Показываем кнопку
-                }, 1500);
+                    window.location.href = deepLinkAndroid;
+                }, 1000);
             } else {
                 window.location.href = fallbackUrl;
             }
         }
 
-        function openManually() {
-            window.location.href = "https://www.tinkoff.ru/rm/miansaryan.levon1/FRwAW31273/";
-        }
-
         window.onload = function () {
-            setTimeout(openApp, 500);
+            document.getElementById("openAppButton").click(); // Автоклик, чтобы обойти блокировки браузера
         };
     </script>
 </head>
 <body>
-    <h1>Перенаправляем в Тинькоффaaaaaaa...</h1>
-    <button id="manualOpen" onclick="openManually()" style="display:none; padding: 10px 20px; font-size: 16px;">
-        Открыть вручную
-    </button>
+    <h1>Перенаправляем в Тинькофф...</h1>
+    <button id="openAppButton" onclick="openApp()" style="display: none;">Открыть</button>
 </body>
 </html>
